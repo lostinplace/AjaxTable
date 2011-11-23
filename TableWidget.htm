@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" ></script>
+    <style type="text/css" id="tableStyle">
+        #ResearchTable
+        {
+            border:1px solid gray;
+            text-align:center;
+            width:435px;
+        }
+        #ResearchTable td
+        {
+        }
+        #ResearchTable th
+        {
+            background-color:#006666;
+            color:White;
+            font-size:smaller
+        }
+            
+        .RowLabels
+        {
+            font-weight:bold;
+        }
+        #ResearchTable td:first-child
+        {
+            font-weight:bold;
+            font-size:smaller;
+        }
+        #ResearchTable tr td
+        {
+            background-color: #DADADA
+        }
+        #ResearchTable tr:nth-child(2n) td
+        {
+            background-color:  #EEEEEE !important;
+        }
+        #ResearchTable tr.even td {
+            background-color: #EEEEEE;
+        }
+        .CellDisplayMode
+        {
+        }
+        .CellManipulateMode
+        {
+        }
+            
+    </style>
+     <!--[if lt IE 9]>
+        <script type="text/javascript">
+            function StyleTable(){
+                $('tr').removeClass('even');
+                $("tr:nth-child(2n)").addClass("even");
+            };
+            $(function () {
+                StyleTable();
+            });
+        </script>
+    <![endif]-->
+    <script id="JqueryFormAjax" type="text/javascript">
+        ///<reference path="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7-vsdoc.js"/>
+        var AjaxForm;
+        $(function () {
+            function AjaxFormImplementation(aForm, aMetaSelector, settings) {
+                settings = settings || {};
+                settings.url = aForm.attr('action');
+                $.each($(aMetaSelector), function (key, value) {
+                    settings[value.attr('name')] = value.val();
+                });
+                settings["data"] = aForm.find('*:not(' + aMetaSelector + ')').serialize();
+                return settings;
+            };
+            AjaxForm = AjaxFormImplementation;
+        });
+    </script>
+    <script id="results" type="text/javascript">
+        var results;
+    </script>
+    <script id="logic" type="text/javascript">
+        ///<reference path="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7-vsdoc.js"/>
+        $(function () {
+
+            function UpdateHandler(e) {
+                
+            }
+
+            var Initialize = function () {
+                $('#cmdUpdate').live('click', UpdateHandler);
+            } ();
+        });
+    </script>
+</head>
+<body>
+    <form id="APIBroadbandSummary" accept="" action="http://www.broadbandmap.gov/broadbandmap/analyze/fall2010/summary/population/{geographyType}/ids/{geographyIds}" style="display:none" method="get">
+        <input type="hidden" name="format" value="JSONP" />
+        <input type="hidden" class="meta" name="dataType" value="JSONP" />
+    </form>
+    <button id="cmdUpdate">Update Table</button>
+    <table id="ResearchTable" >
+        <colgroup >
+            <col class="RowLabels" style="width:20%; text-align:center; border:1px solid gray; font-weight:bold" span="1"/>
+            <col class="RowContent" style="width:20%;text-align:center; border:1px solid gray" span="4" />
+        </colgroup>
+        <thead>
+            <tr class="TableHeader">
+                <th id="NameHeader">{0} Name</th> 
+                <th id="Col1Header" data-action="http://www.google.com/">
+                    Info
+                    <form action="http://www.broadbandmap.gov/broadbandmap/census/state/fips/" method="get" id="APICensusFIPS" >
+                        <input type="hidden" name="format" value="JSONP" />
+                    </form>
+                </th> 
+                <th id="Col2Header">Info</th> 
+                <th id="Col3Header">Info</th> 
+                <th id="Col4Header">Info</th> 
+            </tr>
+        </thead>
+        <tr>
+            <td>Manchester</td>
+            <td>1%</td>
+            <td>1%</td>
+            <td>1%</td>
+            <td>1%</td>
+        </tr>
+        <tr>
+            <td>Suffolk</td>
+            <td>1%</td>
+            <td>1%</td>
+            <td>1%</td>
+            <td>1%</td>
+        </tr>
+        <tr>
+            <td>
+                <span style="font-style:italic; font-size:smaller; font-weight:normal"> Click to add a jurisdiction</span>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</body>
+</html>
