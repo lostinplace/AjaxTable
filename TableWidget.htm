@@ -59,6 +59,21 @@
             });
         </script>
     <![endif]-->
+    <script id= "OptionData" type="text/javascript">
+        var OptionSet = [{	"text":"Users with 50-100 mbps",	"value":"downloadSpeedGt50000kAndLt100000k"	},
+            {	"text":"Users with 1+ gbps",	"value":"downloadSpeedGt1Gig"	},
+            {	"text":"Users with 2 wireline providers",	"value":"numberOfWirelineProvidersEquals2"	},
+            {	"text":"Users with 3 wireline providers",	"value":"numberOfWirelineProvidersEquals3"	},
+            {	"text":"Users with 4 wireline providers",	"value":"numberOfWirelineProvidersEquals4"	},
+            {	"text":"Users with DSL Access",	"value":"dslTechnology"	},
+            {	"text":"Users with Cable Access",	"value":"cableTechnology"	},
+            {	"text":"Users with Fiber Access",	"value":"fiberTechnology"	},
+            {	"text":"Users with broadband access",	"value":"anyTechnology"	},
+            {	"text":"Users with 6-10 mbps",	"value":"downloadSpeedGt6000kAndLt10000k"	},
+            {	"text":"Users with 10-25 mbps",	"value":"downloadSpeedGt10000kAndLt25000k"	},
+            { "text": "Users with 25-50 mbps", "value": "downloadSpeedGt25000kAndLt50000k" }
+        ]
+    </script>
     <script id = "LocationData" type="text/javascript">
         var DataSet = {"State House District": [
             {"Name":"1","geographyIds":"09001","geographyType":"statehouse"},
@@ -267,18 +282,20 @@
                     var tmpVal = $(value);
                     settings[tmpVal.attr('name')] = tmpVal.val();
                 });
+                $.each('input', function (key, val) {
+                    var tmpInput = $(val);
+                    settings.url = settings.url.replace(new RegExp('\{' + tmpInput.attr('name') + '\}', 'g'), tmpInput.val());
+                });
                 settings["data"] = aForm.find('*:not(' + aMetaSelector + ')').serialize();
                 return settings;
             };
             AjaxForm = AjaxFormImplementation;
         });
     </script>
-    <script></script>
     <script id="logic" type="text/javascript">
         ///<reference path="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7-vsdoc.js"/>
-        $(function () {
+        $(function TableEngine() {
             function UpdateHandler(e) {
-
                 $('#ResearchTable td').each(function (key, value) {
                     var tmpItem = $(this);
                     var col = tmpItem.parent().children().index(tmpItem);
@@ -315,10 +332,18 @@
                 $('#cmdUpdate').live('click', UpdateHandler);
             } ();
         });
+
+        $(function InteractionEngine() {
+
+            
+            function Initialize() {
+                
+            };
+        });
     </script>
 </head>
 <body>
-    <form id="APIBroadbandSummary" accept="" action="http://www.broadbandmap.gov/broadbandmap/analyze/fall2010/summary/population/{geographyType}/ids/{geographyIdss}" style="display:none" method="get">
+    <form id="APIBroadbandSummary" accept="" action="http://www.broadbandmap.gov/broadbandmap/analyze/fall2010/summary/population/{geographyType}/ids/{geographyIds}" style="display:none" method="get">
         <input type="hidden" name="format" value="jsonp" />
         <input type="hidden" class="meta" name="dataType" value="JSONP" />
     </form>
@@ -331,14 +356,17 @@
         <thead>
             <tr class="TableHeader">
                 <th id="NameHeader">Name</th> 
-                <th id="Col1Header">
-                    Fiber
+                <th id="Col1Header" class="ColumnHeader">
+                    <span class="ColumnLabel">Fiber</span>
+                    <select class="ddlColumnOptions">
+                        <option></option>
+                    </select>
                     <input type="hidden" name="field" value="['Results']['0']['fiberTechnology']" />
                     <input type="hidden" name="format" value="***value***" />
                     <input type="hidden" name="API" value="APIBroadbandSummary" />
                 </th> 
-                <th id="Col2Header">
-                    < 3 mbps
+                <th id="Col2Header" class="ColumnHeader">
+                    <span class="ColumnLabel">< 3 mbps</span>
                     <input type="hidden" name="field" value="['Results']['0']['downloadSpeedLessThan3Mbps']" />
                     <input type="hidden" name="format" value="***value***" />
                     <input type="hidden" name="API" value="APIBroadbandSummary" />
